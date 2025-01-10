@@ -73,11 +73,11 @@ def refresh_stream():
 help_text = (
 "Welcome to the Restream Bot!\n\n"
 "Commands:"
-"stop = stop the stream and change the token"
-"start = generate a new token and start the nginx service"
-"reload = reload the nginx service"
-"get_token = get the current token"
-"help = get help for the commands"
+"/stop = stop the stream and change the token"
+"/start = generate a new token and start the nginx service"
+"/reload = reload the nginx service"
+"/get_token = get the current token"
+"/help = get help for the commands"
 )
 
 def is_authorized(user_id: int) -> bool:
