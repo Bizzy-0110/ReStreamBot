@@ -1,6 +1,6 @@
 ReStreamBot is a bot for telegram made in 2022 that allows you with the use of a linux server to re-route your stream in multiple platforms at the same time
 # Installation
-Clone the repository
+#### Clone the repository
 ```terminal
 git clone https://github.com/Bizzy-0110/ReStreamBot.git
 ```
@@ -10,10 +10,25 @@ cd ReStreamBot
 ```terminal
 pip install requirements.txt
 ```
+#### Install Nginx
 ```terminal
-apt install nginx
+sudo apt update
+```
+```terminal
+sudo apt install -y build-essential libpcre3 libpcre3-dev libssl-dev zlib1g zlib1g-dev git
 ```
 
+```
+#### Install RTMP Module for Nginx
+``` terminal
+wget http://nginx.org/download/nginx-1.25.1.tar.gz
+tar -xvzf nginx-1.25.1.tar.gz
+cd nginx-1.25.1
+git clone https://github.com/arut/nginx-rtmp-module.git
+./configure --add-module=./nginx-rtmp-module
+make
+sudo make install
+```
 # Setup
 ## Bot
 Edit the costants at the beginning of the main.py according to your needs
