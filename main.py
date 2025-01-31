@@ -14,10 +14,10 @@ with open(REDACTED_DATA, 'r') as file:
 
 WHITE_LIST = redacted["WHITE_LIST"]# List of users id's that can use the bot
 
-API_TOKEN = redacted['TOKEN'] # token for the telegram bot
+TG_API_TOKEN = redacted['TELEGRAM_TOKEN'] # token for the telegram bot
 TOKEN_LENGTH = 20 # Increase this value for better security
 TOKEN_FILE_PATH = './prev_key.txt' # Path to the file where the token is stored
-NGINX_CONF_PATH = '/etc/nginx/nginx.conf' # Path to the nginx configuration file
+NGINX_CONF_PATH = '/usr/local/nginx/conf/nginx.conf' # Path to the nginx configuration file
 
 #-------------------------------------------------------------------------------
 
@@ -56,14 +56,14 @@ def replace_token(old, new):
 
 #---------------------------------------------------------------------------------------------------------
 
-def _restart_ngnix():
-    os.system('systemctl restart nginx')
+def _reload_ngnix():
+    os.system('sudo /usr/local/nginx/sbin/nginx -s reload')
     print("Nginx restarted")
 
 def refresh_stream():
     
     replace_token(get_last_token(), gen_new_token())
-    _restart_ngnix()
+    _reload_ngnix()
 
     print("Stream stopped")
 
@@ -103,7 +103,7 @@ async def reload(update: Update, context: CallbackContext) -> None:
     if not is_authorized(update.message.from_user.id):
         await update.message.reply_text('Access denied')
         return
-    _restart_ngnix()
+    _reload_ngnix()
     await update.message.reply_text('Nginx ricaricato.')
 
 async def get_token(update: Update, context: CallbackContext) -> None:
@@ -123,7 +123,7 @@ async def help_command(update: Update, context: CallbackContext) -> None:
 def main():
 
     # create the application
-    application = Application.builder().token(API_TOKEN).build()
+    application = Application.builder().token(TG_API_TOKEN).build()
 
     # Handlers
     application.add_handler(CommandHandler("start", start))

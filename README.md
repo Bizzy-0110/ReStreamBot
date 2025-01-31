@@ -1,4 +1,4 @@
-ReStreamBot is a bot for telegram made in 2022 that allows you with the use of a linux server to re-route your stream in multiple platforms at the same time
+ReStreamBot is a bot for Telegram made in 2022 that allows you to re-route your stream in multiple platforms at the same time with the power of a Linux server.
 # Installation
 #### Clone the repository
 ```terminal
@@ -10,29 +10,60 @@ cd ReStreamBot
 ```terminal
 pip install requirements.txt
 ```
-#### Install Nginx
+#### Install Nginx with the RTMP module
+To install Nginx with the RTMP module you can follow [this guide](https://obsproject.com/forum/resources/how-to-set-up-your-own-private-rtmp-server-using-nginx.50/).
+
+A summary of the guide can be found under here.
+
+Download dependencies:
 ```terminal
 sudo apt update
 ```
 ```terminal
-sudo apt install -y build-essential libpcre3 libpcre3-dev libssl-dev zlib1g zlib1g-dev git
+sudo apt install -y build-essential libpcre3 libpcre3-dev libssl-dev 
 ```
 
+From your home directory, download the nginx source code and get the RTMP module source code from git:
+```terminal
+wget http://nginx.org/download/nginx-1.15.1.tar.gz
+wget https://github.com/sergey-dryabzhinsky/nginx-rtmp-module/archive/dev.zip
 ```
-#### Install RTMP Module for Nginx
-``` terminal
-wget http://nginx.org/download/nginx-1.25.1.tar.gz
-tar -xvzf nginx-1.25.1.tar.gz
-cd nginx-1.25.1
-git clone https://github.com/arut/nginx-rtmp-module.git
-./configure --add-module=./nginx-rtmp-module
+Unpack/unzip them both, enter the nginx directory and build nginx with the RTMP module:
+```terminal
+tar -zxvf nginx-1.15.1.tar.gz
+```
+```terminal
+unzip dev.zip
+```
+```terminal
+cd nginx-1.15.1
+```
+```terminal
+./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-dev
+```
+```terminal
 make
-sudo make install
 ```
+```terminal
+sudo make install 
+```
+
+And nginx is installed! By default it installs to /usr/local/nginx, so to start the server run the following command:
+```terminal
+sudo /usr/local/nginx/sbin/nginx 
+```
+To restart it, use:
+```terminal
+sudo /usr/local/nginx/sbin/nginx -s stop
+```
+```terminal
+sudo /usr/local/nginx/sbin/nginx 
+```
+
 # Setup
 ## Bot
-Edit the costants at the beginning of the main.py according to your needs
-And add the bot token and the whitelist members in secret.json
+Edit the costants at the beginning of the `main.py` according to your needs
+And add the bot token and the whitelist members in `secret.json`.
 ## Nginx
 Open the Nginx configuration and add the following
 ```text
@@ -53,7 +84,7 @@ rtmp {
 			# Example
 			# Youtube
 			# push rtmp://a.rtmp.youtube.com/live2/{stream_key};
-			# Twich
+			# Twitch
 			# push rtmp://ingest.global-contribute.live-video.net/app/{stream_key};
 		}
 	}
@@ -62,7 +93,7 @@ rtmp {
 ```
 ## Find the Rtmp Server Urls of the platform you want
 
-Urls for [Twich](https://help.twitch.tv/s/twitch-ingest-recommendation?language=en_US)
+Urls for [Twitch](https://help.twitch.tv/s/twitch-ingest-recommendation?language=en_US)
 
 Url for youtube: 
 ```text
