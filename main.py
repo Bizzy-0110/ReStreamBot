@@ -6,7 +6,7 @@ import json
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
 
-REDACTED_DATA = 'redacted.json' # Path to the file containing the bot token and the white list
+REDACTED_DATA = 'secret.json' # Path to the file containing the bot token and the white list
 
 with open(REDACTED_DATA, 'r') as file:
     redacted = json.load(file)
